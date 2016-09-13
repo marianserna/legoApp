@@ -2,12 +2,26 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :trackable, :rememberable,
+         :recoverable, :validatable
+
   has_one :dragonfly
   has_many :received_likes, class_name: 'Like', foreign_key: 'liked_user_id'
   has_many :given_likes, class_name: 'Like', foreign_key: 'likedby_by_user_id'
-  has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
+  has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
 
-  validates :name, :age, :level, :slug, :challenge_points, :likes_count, presence: true
-  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
+  validates :name, :age, :level, :challenge_points, :likes_count, :image, presence: true
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
+
+  # Run this method before validation but only when creating a user
+  before_validation :set_defaults, on: [:create]
+
+  private
+
+  def set_defaults
+    # Set level to beginner only if level doesnt have a value
+    self.level ||= 'Beginner'
+    self.challenge_points ||= 0
+    self.likes_count ||= 0
+  end
 end
