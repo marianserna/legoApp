@@ -5,7 +5,8 @@ class User < ApplicationRecord
          :trackable, :rememberable,
          :recoverable, :validatable
 
-  has_one :dragonfly
+  has_one :dragonfly, autosave: true, inverse_of: :user
+  accepts_nested_attributes_for :dragonfly
   has_many :received_likes, class_name: 'Like', foreign_key: 'liked_user_id'
   has_many :given_likes, class_name: 'Like', foreign_key: 'likedby_by_user_id'
   has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"

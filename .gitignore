@@ -17,3 +17,6 @@
 .byebug_history
 
 notes.md
+
+# ignore uploaded images
+public/system/
