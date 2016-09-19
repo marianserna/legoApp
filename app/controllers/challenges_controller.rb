@@ -1,24 +1,25 @@
 class ChallengesController < ApplicationController
 
+  before_action :authenticate_user!
+
   def new
     @challenge = Challenge.new
-  end
-
-  def create
-    @challenge = Challenge.new(challenge_params)
-    if @challenge.save
+    @challenge.challenger = current_user
+    @challenge.challengee = User.find(params[:user_id])
+    if @challenge.save!
       redirect_to @challenge
-    else
-      render "new"
     end
   end
 
   def show
     @challenge = Challenge.find(params[:id])
+    unless @challenge.participant?(current_user)
+      redirect_to root_url
+    end
   end
 
   def complete
-    
+
   end
 
   def decline

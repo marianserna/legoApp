@@ -17,6 +17,10 @@ class User < ApplicationRecord
   # Run this method before validation but only when creating a user
   before_validation :set_defaults, on: [:create]
 
+  def breeding_time
+    dragonfly.breeding_time
+  end
+
   private
 
   def set_defaults

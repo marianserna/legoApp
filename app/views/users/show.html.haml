@@ -1,1 +1,30 @@
-%h1 Yada yada
+%h2= @user.name
+
+-# Missing challenge alerts and profile update
+
+- if current_user != @user
+  = link_to "Challenge #{@user.name}", new_user_challenge_url(@user)
+
+.image
+  = image_tag @user.image.url(:medium)
+
+.user_name_info
+  .name_label Name:
+  .name= @user.name
+
+.user_age_info
+  .age_label Age:
+  .age= @user.age
+
+.user_level_info
+  .level_label Level:
+  .level= @user.level
+
+.user_challenge_points_info
+  .challenge_points_label Challenge Points:
+  .challenge_points= @user.challenge_points
+
+.user_dragonfly_info
+  .dragonfly_name_label= @user.dragonfly.name
+  .image
+    = image_tag @user.dragonfly.image.url(:medium)

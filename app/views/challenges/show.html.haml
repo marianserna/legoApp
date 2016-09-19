@@ -1,0 +1,19 @@
+%h2  #{@challenge.challenger.name} VS. #{@challenge.challengee.name}
+
+.challenger_pic
+  = image_tag @challenge.challenger.image.url(:medium)
+
+.challengee_pic
+  = image_tag @challenge.challengee.image.url(:medium)
+
+
+-# Pending to finish
+- if @challenge.challenge_status == 'Pending'
+  - if current_user == @challenge.challenger
+    Still waiting for a response.
+  - else
+    Accept or Decline
+- elsif @challenge.challenge_status == 'Completed'
+  Show winner
+- else
+  Declined
