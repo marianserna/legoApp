@@ -6,7 +6,8 @@ class ChallengesController < ApplicationController
     @challenge = Challenge.new
     @challenge.challenger = current_user
     @challenge.challengee = User.find(params[:user_id])
-    if @challenge.save!
+    if @challenge.save
+      Alert.create(user: @challenge.challengee, challenge: @challenge, alert_type: 'challenged' )
       redirect_to @challenge
     end
   end

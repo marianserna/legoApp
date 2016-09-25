@@ -7,6 +7,7 @@ class DeclinesController < ApplicationController
   def create
     @challenge.decline!
     @challenge.winner.add_points(@challenge.points)
+    Alert.create(user: @challenge.challenger, challenge: @challenge, alert_type: 'declined' )
     redirect_to user_url(current_user)
   end
 

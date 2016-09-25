@@ -3,7 +3,7 @@ class AcceptancesController < ApplicationController
   before_action :authenticate_user!
   before_action :find_challenge
   before_action :ensure_can_accept
-
+  
   def new
     # Shows form
   end
@@ -13,6 +13,11 @@ class AcceptancesController < ApplicationController
     if @challenge.update(acceptance_params)
       @challenge.complete!
       @challenge.winner.add_points(@challenge.points)
+      if @challenge.challenger == @challenge.winner
+        Alert.create(user: @challenge.challenger, challenge: @challenge, alert_type: 'won' )
+      else
+        Alert.create(user: @challenge.challenger, challenge: @challenge, alert_type: 'lost' )
+      end
       redirect_to user_url(current_user)
     else
       render :new

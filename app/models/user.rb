@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :challenges, class_name: 'challenge', foreign_key: 'challenger_id'
   has_many :received_likes, class_name: 'Like', foreign_key: 'liked_user_id'
   has_many :given_likes, class_name: 'Like', foreign_key: 'likedby_by_user_id'
+  has_many :alerts
   has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
 
   validates :name, :age, :level, :challenge_points, :likes_count, :image, presence: true
@@ -31,6 +32,13 @@ class User < ApplicationRecord
   def add_points(points)
     self.challenge_points += points
     save!
+  end
+
+  # Find alerts and mark them as read
+  def unread_alerts
+    not_read = alerts.unread
+    Alert.where(id: not_read.map(&:id)).update_all(is_read: true)
+    not_read
   end
 
   private
