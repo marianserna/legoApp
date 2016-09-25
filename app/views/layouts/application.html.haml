@@ -18,6 +18,9 @@
     %nav
       %ul
         - if user_signed_in?
+          %li= link_to 'Users', users_url
+          %li= link_to 'Profile', user_url(current_user)
+          %li= link_to 'Challenges', challenges_url
           %li= link_to 'Sign Out', destroy_user_session_url, method: :delete
         - else
           %li= link_to 'Log In', new_user_session_url

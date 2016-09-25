@@ -11,19 +11,15 @@ class ChallengesController < ApplicationController
     end
   end
 
+  def index
+    @challenges = current_user.my_challenges.order(id: :desc)
+  end
+
   def show
     @challenge = Challenge.find(params[:id])
     unless @challenge.participant?(current_user)
       redirect_to root_url
     end
-  end
-
-  def complete
-
-  end
-
-  def decline
-
   end
 
   private

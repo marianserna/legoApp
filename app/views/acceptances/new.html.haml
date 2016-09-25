@@ -1,0 +1,10 @@
+%h2 Time Yourself
+
+= simple_form_for(@challenge, url: challenge_acceptances_url(@challenge), method: :post) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :challengee_time
+
+  .form-actions
+    = f.button :submit, "Submit"

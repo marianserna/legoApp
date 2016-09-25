@@ -1,0 +1,22 @@
+%h2 Challenges
+
+%table
+  %thead
+    %tr
+      %th Challenger
+      %th Challengee
+      %th Status
+      %th Winner
+      %th Actions
+
+  %tbody
+    - @challenges.each do |challenge|
+      %tr
+        %td= challenge.challenger.name
+        %td= challenge.challengee.name
+        %td= challenge.challenge_status
+        -# You can do this because of the winner relationship in the challenge.rb
+        -# Could also do if challenge.winner_id.present?
+        -#   =challenge.winner.name
+        %td= challenge.winner.try(:name)
+        %td= link_to 'View', challenge_url(challenge)

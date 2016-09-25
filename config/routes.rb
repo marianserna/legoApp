@@ -6,11 +6,10 @@ Rails.application.routes.draw do
     resources :challenges, only: [:new, :create]
   end
 
-  resources :challenges, only: [:show] do
-    member do
-      put 'complete'
-      put 'decline'
-    end
+  resources :challenges, only: [:index, :show] do
+    # new == accept, create == stop
+    resources :acceptances, only: [:new, :create]
+    resources :declines, only: [:create]
   end
   resources :likes, only: [:create]
 end

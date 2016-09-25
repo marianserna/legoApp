@@ -12,7 +12,8 @@
   - if current_user == @challenge.challenger
     Still waiting for a response.
   - else
-    Accept or Decline
+    = link_to 'Accept', new_challenge_acceptance_url(@challenge)
+    = link_to 'Decline', challenge_declines_url(@challenge), method: :post
 - elsif @challenge.challenge_status == 'Completed'
   Show winner
 - else
